@@ -15,4 +15,7 @@ export default defineConfig({
       "@": root,
     } as AliasOptions,
   },
+  optimizeDeps: {
+    include: ["swiper/react", "swiper/modules"]
+  }
 });
