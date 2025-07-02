@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@font-face {
+    font-family: "aeonik400";
+    src: url("./assets/fonts/fonnts.com-Aeonik_Regular.ttf");
+}
+@font-face {
+    font-family: "aeonik700";
+    src: url("./assets/fonts/fonnts.com-Aeonik_Bold.ttf");
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+.container{
+    max-width: 1860px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}

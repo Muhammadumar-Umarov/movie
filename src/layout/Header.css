@@ -1,0 +1,4 @@
+.navbar__links.active{
+    border-bottom: 2px solid #C61F1F;
+    color: #C61F1F;
+}
