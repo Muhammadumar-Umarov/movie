@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom"
 import logo from "@/assets/main-logo.svg"
-import { BulbOutlined, HeartOutlined, HomeOutlined, MoonOutlined, SearchOutlined, VideoCameraOutlined } from "@ant-design/icons"
-import { Button } from "antd"
+import {MoonOutlined, SearchOutlined,  } from "@ant-design/icons"
+
 import "./Header.css"
 import { useEffect } from "react"
 const Header = () => {
