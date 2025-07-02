@@ -2,6 +2,7 @@ import { useMovie } from '@/api/hooks/useMovie'
 import MovieView from '@/components/movie-view/MovieView'
 import React, { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type {Swiper as SwiperType} from "swiper"
 
 // Import Swiper styles
 
@@ -15,18 +16,18 @@ import type { IMovie } from '@/types';
 const Home = () => {
   const { getMovies } = useMovie()
   const { data } = getMovies({ page: 1, without_genres: "18,36,27,10749" })
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   console.log(data);
   
   return (
     <>
       <div className='container h-[640px] mx-auto rounded-[12px] mt-4 mb-[50px]'>
         <Swiper
-        style={{
-          '--swiper-navigation-color': '#fff',
-          '--swiper-pagination-color': '#fff',
-          borderRadius: 12
-        }}
+        // style={{
+        //   '--swiper-navigation-color': '#fff',
+        //   '--swiper-pagination-color': '#fff',
+        //   borderRadius: 12
+        // }}
         spaceBetween={10}
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
@@ -36,7 +37,7 @@ const Home = () => {
         {
           data?.results?.map((movie: IMovie)=>(
             <SwiperSlide>
-              <img src={IMAGE_URL + movie.poster_path} alt="" />
+              <img src={IMAGE_URL + movie.backdrop_path} alt="" />
             </SwiperSlide>
           ))
         }
@@ -53,7 +54,7 @@ const Home = () => {
         {
           data?.results?.map((movie: IMovie)=>(
             <SwiperSlide>
-              <img className='object-contain' src={IMAGE_URL + movie.poster_path} alt="" />
+              <img className='object-contain' src={IMAGE_URL + movie.backdrop_path} alt="" />
             </SwiperSlide>
           ))
         }
