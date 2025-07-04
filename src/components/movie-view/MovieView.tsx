@@ -1,9 +1,9 @@
 import { IMAGE_URL } from "@/const";
 import type { IMovie } from "@/types";
-import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { StarFilled, } from "@ant-design/icons";
 import React, { type FC } from "react";
 import { useNavigate } from "react-router-dom";
-import dfImage from "@/assets/dfImage.jpg"
+import dfImage from "@/assets/dfimage.jpg"
 interface Props {
   data: undefined | IMovie[];
 }
@@ -19,10 +19,10 @@ const MovieView: FC<Props> = ({ data }) => {
           <div onClick={() => navigate(`/movie/${movie.id}`)} className="dark:bg-black bg-white cursor-pointer overflow-hidden" key={movie.id}>
             <div>
               <img loading="lazy" className="rounded-[8px_8px_0_0] mb-1.5 hover:scale-[103%] transition overflow-hidden" src={movie.poster_path === null ? dfImage : IMAGE_URL + movie.poster_path} alt={movie.title} />
-              <p className="flex items-center gap-1 mb-1 text-[12px]"><StarFilled style={{ color: "yellow" }}></StarFilled>{movie.vote_average} <StarOutlined style={{ marginLeft: 16, color: "dodgerblue" }}></StarOutlined></p>
+              <p className="flex items-center gap-1  text-[12px]"><StarFilled style={{ color: "yellow" }}></StarFilled>{movie.vote_average} </p>
             </div>
             <div>
-              <h3 title={movie.title} className="font-bold text-[18px] line-clamp-1">
+              <h3 title={movie.title} className=" text-[18px] line-clamp-1">
                 {movie.title}
               </h3>
             </div>
