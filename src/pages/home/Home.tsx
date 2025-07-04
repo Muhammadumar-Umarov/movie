@@ -1,66 +1,64 @@
+import React from 'react';
 import { useMovie } from '@/api/hooks/useMovie'
+import { Link } from 'react-router-dom';
+import type { IMovie } from '@/types';
 import MovieView from '@/components/movie-view/MovieView'
-import React, { useState } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import type {Swiper as SwiperType} from "swiper"
-
-// Import Swiper styles
+// TEGMA TEPADILAGA
 
 import './style.css';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
 // import required modules
-import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { IMAGE_URL } from '@/const';
-import type { IMovie } from '@/types';
+import { StarFilled } from '@ant-design/icons';
 
 const Home = () => {
   const { getMovies } = useMovie()
   const { data } = getMovies({ page: 1, without_genres: "18,36,27,10749" })
-   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   console.log(data);
-  
+
   return (
     <>
       <div className='container h-[640px] mx-auto rounded-[12px] mt-4 mb-[50px]'>
         <Swiper
-        // style={{
-        //   '--swiper-navigation-color': '#fff',
-        //   '--swiper-pagination-color': '#fff',
-        //   borderRadius: 12
-        // }}
-        spaceBetween={10}
-        navigation={true}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2"
-      >
-        {
-          data?.results?.map((movie: IMovie)=>(
-            <SwiperSlide>
-              <img src={IMAGE_URL + movie.backdrop_path} alt="" />
-            </SwiperSlide>
-          ))
-        }
-      </Swiper>
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        spaceBetween={10}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper w-[432px] mx-auto h-[64px]"
-      >
-        {
-          data?.results?.map((movie: IMovie)=>(
-            <SwiperSlide>
-              <img className='object-contain' src={IMAGE_URL + movie.backdrop_path} alt="" />
-            </SwiperSlide>
-          ))
-        }
-      </Swiper>
-      </div>
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className="mySwiper"
+        >
+          {
+            data?.results?.map((movie: IMovie) => (
+              <SwiperSlide className="relative">
+                <img className='object-cover w-full h-full rounded-[10px]' src={IMAGE_URL + movie?.backdrop_path} alt="" />
 
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10 rounded-[8px]"></div>
+
+                <div className='absolute bottom-24 left-12 z-20'>
+                  <p className='text-[56px] font-extrabold text-white drop-shadow-lg'>{movie?.title}</p>
+                  <div className='flex gap-3 items-center text-slate-300 font-medium drop-shadow-md'>
+                    <span>{movie?.release_date.split("-")[0]}</span>
+                    <span className='w-[3px] h-[3px] bg-slate-300 rounded-full'></span>
+                    <span><StarFilled style={{color: "yellow", marginRight: 6}}></StarFilled>{movie?.vote_average}</span>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
+          }
+        </Swiper>
+      </div>
+      <div className='container mx-auto flex justify-between text-[20px] mb-[20px]'>
+        <p className=''>New Release</p>
+        <p className='text-red-700'><Link to={"/movies"}>See all{'>'}</Link></p>
+      </div>
       <MovieView data={data?.results?.slice(0, 10)} />
     </>
   )
