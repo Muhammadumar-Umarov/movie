@@ -2,7 +2,7 @@ import { useMovie } from '@/api/hooks/useMovie'
 import MovieView from '@/components/movie-view/MovieView'
 import { IMAGE_URL } from '@/const'
 import { Button, Image } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import dfImage from "@/assets/default_image.avif"
 import { CalendarOutlined, ClockCircleOutlined, PlayCircleOutlined, StarFilled } from '@ant-design/icons'
@@ -18,7 +18,9 @@ const MovieDetail = () => {
   // const { data: imagesData } = getMovieDetail(id || "", "images")
   const { data: creditsData } = getMovieDetail(id || "", "credits")
   console.log(data);
-
+ useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
   return (
     <>
       <div className="min-h-screen bg-white dark:bg-black">

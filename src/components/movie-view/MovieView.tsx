@@ -4,7 +4,7 @@ import { StarFilled, } from "@ant-design/icons";
 import React, { type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import dfImage from "@/assets/dfimage.jpg"
-interface Props {
+interface Props { 
   data: undefined | IMovie[];
 }
 

@@ -3,14 +3,16 @@ import MovieView from '@/components/movie-view/MovieView';
 import { IMAGE_URL } from '@/const';
 import { ArrowLeftOutlined, CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 const PersonDetail = () => {
     const { id } = useParams()
     const { getPersonSingle, getPersonMovie} = usePerson()
     const {data: getCreditsData} = getPersonMovie(id || "", "credits" )
-
+     useEffect(()=>{
+        window.scrollTo(0,0)
+      },[])
     // console.log(getCreditsData);
     
     const { data } = getPersonSingle(id || "")

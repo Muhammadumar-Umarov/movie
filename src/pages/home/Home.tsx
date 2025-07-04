@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMovie } from '@/api/hooks/useMovie'
 import { Link } from 'react-router-dom';
 import type { IMovie } from '@/types';
@@ -17,6 +17,9 @@ const Home = () => {
   const { getMovies } = useMovie()
   const { data } = getMovies({ page: 1, without_genres: "18,36,27,10749" })
   console.log(data);
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
 
   return (
     <>

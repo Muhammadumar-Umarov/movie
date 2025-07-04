@@ -1,6 +1,6 @@
 import { useMovie } from "@/api/hooks/useMovie";
 import MovieView from "@/components/movie-view/MovieView";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pagination } from "antd"
 import { useGenre } from "@/api/hooks/useGenre";
 import Genre from "@/components/genre/Genre";
@@ -18,7 +18,9 @@ const Movies = () => {
     setParam("page", value.toString())
   }
 
-
+   useEffect(()=>{
+      window.scrollTo(0,0)
+    },[])
   const { data: genreData } = getGenres()
   const { data, } = getMovies({ page, with_genres: genre, without_genres: "18,36,27,10749" });
 
