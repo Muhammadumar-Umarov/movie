@@ -8,6 +8,9 @@ import dfImage from "@/assets/default_image.avif"
 import { CalendarOutlined, ClockCircleOutlined, PlayCircleOutlined, StarFilled } from '@ant-design/icons'
 
 const MovieDetail = () => {
+  useEffect(()=>{
+     window.scrollTo(0,0)
+   },[])
   const navigate = useNavigate()
   const { id } = useParams()
 
@@ -17,10 +20,8 @@ const MovieDetail = () => {
   const { data: similarData } = getMovieDetail(id || "", "similar")
   // const { data: imagesData } = getMovieDetail(id || "", "images")
   const { data: creditsData } = getMovieDetail(id || "", "credits")
-  console.log(data);
- useEffect(()=>{
-    window.scrollTo(0,0)
-  },[])
+  
+
   return (
     <>
       <div className="min-h-screen bg-white dark:bg-black">

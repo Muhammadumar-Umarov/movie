@@ -23,7 +23,7 @@ const Home = () => {
 
   return (
     <>
-      <div className='container h-[640px] mx-auto rounded-[12px] mt-4 mb-[50px]'>
+      <div className=' h-[780px] mb-[50px] relative'>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -41,7 +41,7 @@ const Home = () => {
           {
             data?.results?.map((movie: IMovie) => (
               <SwiperSlide className="relative">
-                <img className='object-cover w-full h-full rounded-[10px]' src={IMAGE_URL + movie?.backdrop_path} alt="" />
+                <img className='object-cover w-full h-full ' src={IMAGE_URL + movie?.backdrop_path} alt="" />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10 rounded-[8px]"></div>
 

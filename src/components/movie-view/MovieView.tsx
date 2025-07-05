@@ -10,7 +10,7 @@ interface Props {
 
 const MovieView: FC<Props> = ({ data }) => {
   const navigate = useNavigate()
-
+  
   return (
     <div className="container mx-auto ">
 
