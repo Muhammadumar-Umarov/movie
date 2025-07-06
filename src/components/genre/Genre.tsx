@@ -19,7 +19,7 @@ const Genre: FC<Props> = ({ data }) => {
     }
   }
   return (
-    <div className="flex overflow-auto gap-6 container mt-2  mb-10">
+    <div className="flex overflow-auto scrollbar-none gap-6 container mt-2  mb-10" style={{scrollbarWidth: "none"}}>
       {data?.slice(0,17)?.map((item: IGenre) => (
         <div onClick={() => handleGenre(item.id)} className={`text-nowrap select-none cursor-pointer  px-3 rounded-[14px] ${item.id.toString() === genre ? "bg-red-700 text-white " : ""}`} key={item.id}>{item.name}</div>
   ))

@@ -62,7 +62,7 @@ const Home = () => {
         <p className=''>New Release</p>
         <p className='text-red-700'><Link to={"/movies"}>See all{'>'}</Link></p>
       </div>
-      <MovieView data={data?.results?.slice(0, 10)} />
+      <MovieView data={data?.results?.slice(0, 12)} />
     </>
   )
 }

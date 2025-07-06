@@ -18,7 +18,7 @@ export default function NotFound() {
 
                 <div className="space-y-4">
                     <Button className="w-full bg-red-700 hover:bg-red-800 text-white py-4">
-                        <Link to={"/"}>
+                        <Link to={"/"} style={{color: "white"}}>
                             Back to Home
                         </Link>
                     </Button>

@@ -29,7 +29,7 @@ const Header = () => {
 
       <header
         className={`w-full  transition-all duration-300 h-[70px]  text-white  px-4 lg:px-8  fixed top-0 z-50 bg-gradient-to-b
-    ${isScrolled ? "bg-[#000000bf] shadow-md" : "bg-gradient-to-b from-black/75 via-black/30 to-transparent"}`}>
+    ${isScrolled ? "bg-[#000000bf] shadow-md" : "bg-gradient-to-b from-black/80 via-black/30 to-transparent"}`}>
 
         <div className="container mx-auto flex items-center justify-between  h-full">
           <div className="flex items-center gap-4 lg:gap-6">
