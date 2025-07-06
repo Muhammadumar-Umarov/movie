@@ -3,7 +3,7 @@
 import { useMovie } from "@/api/hooks/useMovie"
 import MovieView from "@/components/movie-view/MovieView"
 import React, { useEffect, useState } from "react"
-import { Pagination,  Button, Empty} from "antd"
+import { Pagination, Button, Empty } from "antd"
 import { useGenre } from "@/api/hooks/useGenre"
 import Genre from "@/components/genre/Genre"
 import { useParamsHook } from "@/hooks/useParamsHook"
@@ -18,6 +18,9 @@ import Loading from "@/components/loading/Loading"
 
 
 const Movies = () => {
+  useEffect(() => {
+    window.scrollTo(0, 70)
+  }, [])
   const { getMovies } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
@@ -35,8 +38,6 @@ const Movies = () => {
     window.scrollTo({ top: 70, behavior: "smooth" })
   }
 
-
-
   const clearFilters = () => {
     setParam("genre", "")
     setParam("year", "")
@@ -45,10 +46,6 @@ const Movies = () => {
     setParam("page", "1")
     setSortBy("popularity.desc")
   }
-
-  useEffect(() => {
-    window.scrollTo(0, 70)
-  }, [])
 
   const { data: genreData } = getGenres()
   const { data, isLoading } = getMovies({
@@ -60,7 +57,6 @@ const Movies = () => {
     "vote_average.gte": rating,
   })
 
-  // Quick filter options
   const quickFilters = [
     { key: "popular", label: "Popular", icon: <FireOutlined />, params: { sort_by: "popularity.desc" } },
     { key: "top_rated", label: "Top Rated", icon: <TrophyOutlined />, params: { sort_by: "vote_average.desc" } },
@@ -110,7 +106,7 @@ const Movies = () => {
         </div>
       </div>
 
-      <div className="py-6" style={{ backgroundColor: "#161616" }}>
+      <div className="py-6 dark:bg-[#161616] bg-slate-950">
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap justify-center gap-4">
             {quickFilters.map((filter) => (

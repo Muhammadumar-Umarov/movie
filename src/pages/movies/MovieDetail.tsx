@@ -255,9 +255,9 @@ const MovieDetail = () => {
             </div>
 
             <div className="xl:col-span-3 space-y-12">
-              <div className="rounded-2xl p-8 shadow-lg" style={{ backgroundColor: "#161616" }}>
-                <h2 className="text-2xl font-bold text-white mb-6">Overview</h2>
-                <p className="text-gray-300 leading-relaxed text-lg">{data?.overview}</p>
+              <div className="rounded-2xl p-8 shadow-lg bg-white dark:bg-[#161616]">
+                <h2 className="text-2xl font-bold text-black dark:text-white mb-6">Overview</h2>
+                <p className="dark:text-gray-300 text-gray-700 leading-relaxed text-lg">{data?.overview}</p>
 
                 {data?.tagline && (
                   <div className="mt-6 pt-6 border-t border-gray-700">
@@ -266,9 +266,9 @@ const MovieDetail = () => {
                 )}
               </div>
 
-              <div className="rounded-2xl p-8 shadow-lg" style={{ backgroundColor: "#161616" }}>
+              <div className="rounded-2xl p-8 shadow-lg dark:bg-[#161616]">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-bold text-white">Cast</h2>
+                  <h2 className="text-2xl font-bold dark:text-white text-black">Cast</h2>
                   <Button
                     type="link"
                     onClick={() => navigate(`/movie/${id}/cast`)}
