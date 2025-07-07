@@ -38,7 +38,7 @@ const MovieDetail = () => {
         <div className="relative h-[70vh] overflow-hidden ">
           <div className="absolute inset-0">
             <img 
-              src={IMAGE_URL + data?.backdrop_path || "/placeholder.svg"}
+              src={IMAGE_URL + data?.backdrop_path}
               alt={data?.title}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -212,7 +212,7 @@ const MovieDetail = () => {
                     style={{ backgroundColor: "#161616" }}
                   >
                     <Image
-                      src={IMAGE_URL + data?.poster_path || "/placeholder.svg"}
+                      src={IMAGE_URL + data?.poster_path}
                       alt={data?.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       preview={false}
@@ -222,32 +222,32 @@ const MovieDetail = () => {
                   <div className="absolute inset-0 rounded-2xl ring-1 ring-black/10 dark:ring-white/10" />
                 </div>
 
-                <div className="rounded-2xl p-6 shadow-lg" style={{ backgroundColor: "#161616" }}>
-                  <h3 className="text-lg font-semibold text-white mb-4">Movie Facts</h3>
+                <div className="rounded-2xl p-6 shadow-lg dark:bg-[#161616]">
+                  <h3 className="text-lg font-semibold dark:text-white  mb-4">Movie Facts</h3>
 
                   <div className="space-y-4 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Status</span>
-                      <span className="font-medium text-white">{data?.status}</span>
+                      <span className="font-medium dark:text-white">{data?.status}</span>
                     </div>
 
                     <div className="flex justify-between">
                       <span className="text-gray-400">Budget</span>
-                      <span className="font-medium text-white">
+                      <span className="font-medium dark:text-white">
                         {data?.budget ? `$${(data.budget / 1000000).toFixed(1)}M` : "N/A"}
                       </span>
                     </div>
 
                     <div className="flex justify-between">
                       <span className="text-gray-400">Revenue</span>
-                      <span className="font-medium text-white">
+                      <span className="font-medium dark:text-white">
                         {data?.revenue ? `$${(data.revenue / 1000000).toFixed(1)}M` : "N/A"}
                       </span>
                     </div>
 
                     <div className="flex justify-between">
                       <span className="text-gray-400">Vote Count</span>
-                      <span className="font-medium text-white">{data?.vote_count?.toLocaleString()}</span>
+                      <span className="font-medium dark:text-white">{data?.vote_count?.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -305,7 +305,7 @@ const MovieDetail = () => {
                       </div>
 
                       <div className="text-center space-y-1">
-                        <h3 className="font-semibold text-white text-sm group-hover:text-red-400 transition-colors line-clamp-2">
+                        <h3 className="font-semibold dark:text-white text-black text-sm group-hover:text-red-400 transition-colors line-clamp-2">
                           {person.original_name}
                         </h3>
                         <p className="text-gray-400 text-xs line-clamp-2">{person.character}</p>
@@ -316,24 +316,24 @@ const MovieDetail = () => {
               </div>
 
               {data?.production_companies && data.production_companies.length > 0 && (
-                <div className="rounded-2xl p-8 shadow-lg" style={{ backgroundColor: "#161616" }}>
-                  <h2 className="text-2xl font-bold text-white mb-6">Production</h2>
+                <div className="rounded-2xl p-8 shadow-lg ">
+                  <h2 className="text-2xl font-bold dark:text-white mb-6 text-black">Production</h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h3 className="font-semibold text-white mb-4">Production Companies</h3>
+                      <h3 className="font-semibold dark:text-white text-gray-800 mb-4">Production Companies</h3>
                       <div className="space-y-3">
                         {data.production_companies.map((company: any) => (
                           <div key={company.id} className="flex items-center gap-3">
                             {company.logo_path && (
                               <img
-                                src={IMAGE_URL + company.logo_path || "/placeholder.svg"}
+                                src={IMAGE_URL + company.logo_path}
                                 alt={company.name}
                                 className="w-8 h-8 object-contain"
                                 style={{ width: "32px", height: "32px", objectFit: "contain" }}
                               />
                             )}
-                            <span className="text-gray-300">{company.name}</span>
+                            <span className="dark:text-gray-300 text-gray-700">{company.name}</span>
                           </div>
                         ))}
                       </div>
@@ -363,9 +363,9 @@ const MovieDetail = () => {
               )}
 
               {similarData?.results && similarData.results.length > 0 && (
-                <div className="rounded-2xl p-8 shadow-lg" style={{ backgroundColor: "#161616" }}>
+                <div className="rounded-2xl p-8 shadow-lg dark:bg-[#161616]" >
                   <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold text-white">More Like This</h2>
+                    <h2 className="text-2xl font-bold dark:text-white">More Like This</h2>
                     <Button
                       type="link"
                       style={{

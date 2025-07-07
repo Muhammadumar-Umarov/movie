@@ -51,7 +51,7 @@ const Movies = () => {
   const { data, isLoading } = getMovies({
     page,
     with_genres: genre,
-    // without_genres: "18,36,27,10749",
+    without_genres: "18,36,27,10749",
     sort_by: sortBy,
     primary_release_year: year,
     "vote_average.gte": rating,
@@ -66,14 +66,14 @@ const Movies = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black" style={{ paddingTop: "70px" }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-black ">
       <div
-        className="relative py-16 px-6 "
+        className="relative py-16 px-6 h-[500px] grid place-items-center"
         style={{
           background: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)",
         }}
       >
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center ">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Discover Movies</h1>
           <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
             Explore thousands of movies from every genre, decade, and rating. Find your next favorite film.
@@ -100,7 +100,6 @@ const Movies = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className=" bg-transparent h-full flex-1/2 outline-none text-white"
               />
-
             </form>
           </div>
         </div>

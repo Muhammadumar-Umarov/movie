@@ -16,7 +16,7 @@ import { StarFilled } from '@ant-design/icons';
 const Home = () => {
   const { getMovies } = useMovie()
   const { data } = getMovies({ page: 1, without_genres: "18,36,27,10749" })
-  console.log(data);
+  console.log(data?.results);
   useEffect(()=>{
     window.scrollTo(0,0)
   },[])
@@ -63,6 +63,8 @@ const Home = () => {
         <p className='text-red-700'><Link to={"/movies"}>See all{'>'}</Link></p>
       </div>
       <MovieView data={data?.results?.slice(0, 12)} />
+
+   
     </>
   )
 }

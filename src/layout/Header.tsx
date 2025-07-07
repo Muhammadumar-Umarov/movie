@@ -37,7 +37,6 @@ const Header = () => {
               <img src={logo} alt="logo" className="h-8 sm:h-10" />
             </Link>
 
-            {/* Desktop Navbar */}
             <ul className="hidden md:grid grid-cols-3 text-[16px] lg:text-[20px] gap-3 lg:gap-6">
               <NavLink
                 to={"/"}
@@ -60,7 +59,6 @@ const Header = () => {
             </ul>
           </div>
 
-          {/* Right: Icons */}
           <div className="flex items-center gap-4 sm:gap-6">
             <NavLink to={"search"}>
               <SearchOutlined className="text-[20px] sm:text-[22px]" />
@@ -72,7 +70,6 @@ const Header = () => {
               <button className="font-bold text-[15px] sm:text-[17px]">Sign in</button>
             </Link>
 
-            {/* Hamburger icon */}
             <button className="md:hidden" onClick={() => setIsOpen(true)}>
               <MenuOutlined className="text-xl text-white" />
             </button>
@@ -80,7 +77,6 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-64 dark:bg-black bg-white dark:text-white text-black z-50 shadow-md transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
           }`}
@@ -110,7 +106,6 @@ const Header = () => {
         </nav>
       </div>
 
-      {/* Overlay */}
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}

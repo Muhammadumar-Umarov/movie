@@ -1,9 +1,14 @@
 import {  Film } from "lucide-react"
 import Button from "antd/es/button/button-group"
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
-export default function NotFound() {
-    return (
+const NotFound = () => {
+    useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+  return (
+    <div>
         <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center px-4">
             <div className="text-center max-w-md mx-auto">
                 <div className="mb-8">
@@ -16,15 +21,15 @@ export default function NotFound() {
                     </p>
                 </div>
 
-                <div className="space-y-4">
-                    <Button className="w-full bg-red-700 hover:bg-red-800 text-white py-4">
+                <div className="">
+                    <Button className="flex items-center justify-center w-full bg-red-700 hover:bg-red-800 text-white py-4">
                         <Link to={"/"} style={{color: "white"}}>
                             Back to Home
                         </Link>
                     </Button>
 
                     <Button
-                        className="w-full border-red-700 text-red-700 hover:bg-red-50 dark:hover:bg-red-950 bg-transparent py-4">
+                        className=" flex items-center justify-center w-full border-red-700 text-red-700 hover:bg-red-50 dark:hover:bg-red-950 bg-transparent py-4">
                         <Link to={"/movies"}>
                             Browse Movies
                         </Link>
@@ -32,5 +37,8 @@ export default function NotFound() {
                 </div>
             </div>
         </div>
-    )
+    </div>
+  )
 }
+
+export default NotFound
