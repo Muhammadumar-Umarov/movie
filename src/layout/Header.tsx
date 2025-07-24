@@ -9,7 +9,7 @@ import { Button } from "antd";
 import { useStore } from "@/zustand/index";
 
 const Header = () => {
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [_, setDarkMode] = React.useState(false);
   const auth = useStore(state => state.auth);
   const setAuth = useStore(state => state.setAuth);
   const logout = useStore(state => state.logout);
