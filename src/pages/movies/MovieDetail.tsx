@@ -31,6 +31,7 @@ const MovieDetail = () => {
   const { data: creditsData } = getMovieDetail(id || "", "credits")
 
   const ratingPercentage = data?.vote_average ? data.vote_average * 10 : 0
+console.log(data);
 
   return (
     <>

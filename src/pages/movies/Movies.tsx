@@ -188,7 +188,9 @@ const Movies = () => {
             </Empty>
           </div>
         ) : null}
-
+      {
+        // data?.results.
+      }
         {data?.results && data.results.length > 0 && (
           <div className="flex justify-center">
             <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>

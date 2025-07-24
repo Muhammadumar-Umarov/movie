@@ -1,120 +1,140 @@
-import { NavLink, Link } from "react-router-dom"
-import logo from "@/assets/main-logo.svg"
-import { CloseOutlined, MenuOutlined, MoonOutlined, SearchOutlined, } from "@ant-design/icons"
+import { NavLink } from "react-router-dom";
+import React from "react";
+import logo from "../assets/main-logo.svg";
+import { GoHome } from "react-icons/go";
+import { RiMovieLine } from "react-icons/ri";
+import { IoSearch } from "react-icons/io5";
+import { FaRegBookmark } from "react-icons/fa";
+import { Button } from "antd";
+import { useStore } from "@/zustand/index";
 
-import "./Header.css"
-import { useEffect, useState } from "react"
 const Header = () => {
-  useEffect(() => {
-    localStorage.getItem("theme") === "dark" && document.body.classList.add("dark")
-  }, [])
-  const [isOpen, setIsOpen] = useState(false)
+  const [darkMode, setDarkMode] = React.useState(false);
+  const auth = useStore(state => state.auth);
+  const setAuth = useStore(state => state.setAuth);
+  const logout = useStore(state => state.logout);
+
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+
+    if (!auth && typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setAuth(JSON.parse(storedUser));
+      }
+    }
+  }, [auth, setAuth]);
+
   const handleTheme = () => {
-    const isDark = document.body.classList.toggle("dark")
-    localStorage.setItem("theme", isDark ? "dark" : "light")
-  }
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    setDarkMode((prev) => {
+      const newTheme = !prev;
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+      return newTheme;
+    });
+  };
 
   return (
-    <>
+    <div className="w-full dark:bg-black fixed top-0 left-0 right-0 z-50">
+      <nav className="flex container mx-auto justify-between bg-white items-center px-6 py-4 dark:bg-black">
+        <NavLink to="/">
+          <img src={logo} className="cursor-pointer h-10" alt="Logo" />
+        </NavLink>
 
-      <header
-        className={`w-full  transition-all duration-300 h-[70px]  text-white  px-4 lg:px-8  fixed top-0 z-50 bg-gradient-to-b
-    ${isScrolled ? "bg-[#000000bf] shadow-md" : "bg-gradient-to-b from-black/80 via-black/30 to-transparent"}`}>
-
-        <div className="container mx-auto flex items-center justify-between  h-full">
-          <div className="flex items-center gap-4 lg:gap-6">
-            <Link to={"/"}>
-              <img src={logo} alt="logo" className="h-8 sm:h-10" />
-            </Link>
-
-            <ul className="hidden md:grid grid-cols-3 text-[16px] lg:text-[20px] gap-3 lg:gap-6">
+        <div className="flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-6 text-white">
+            {[
+              { to: "/", icon: <GoHome className="w-6 h-6" />, label: "Home" },
+              { to: "/movies", icon: <RiMovieLine className="w-6 h-6" />, label: "Movies" },
+              { to: "/saved", icon: <FaRegBookmark className="w-6 h-5" />, label: "Saved" },
+              { to: "/search", icon: <IoSearch className="w-6 h-5" />, label: "Search" },
+            ].map((item) => (
               <NavLink
-                to={"/"}
-                className="grid place-items-center navbar__links pb-[5px] lg:pb-[7px] border-b border-transparent hover:border-white"
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex flex-col items-center ${
+                    isActive ? "text-red-500" : "text-black dark:text-white"
+                  }`
+                }
               >
-                Home
+                {item.icon}
+                <span className="text-xs">{item.label}</span>
               </NavLink>
-              <NavLink
-                to={"/movies"}
-                className="grid place-items-center navbar__links pb-[5px] lg:pb-[7px] border-b border-transparent hover:border-white"
-              >
-                Movies
-              </NavLink>
-              <NavLink
-                to={"/wishlist"}
-                className="grid place-items-center navbar__links pb-[5px] lg:pb-[7px] border-b border-transparent hover:border-white"
-              >
-                My Movies
-              </NavLink>
-            </ul>
+            ))}
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6">
-            <NavLink to={"search"}>
-              <SearchOutlined className="text-[20px] sm:text-[22px]" />
-            </NavLink>
-            <span className="cursor-pointer" onClick={handleTheme}>
-              <MoonOutlined className="text-[20px] sm:text-[22px]" />
-            </span>
-            <Link to={"/signin"}>
-              <button className="font-bold text-[15px] sm:text-[17px]">Sign in</button>
-            </Link>
-
-            <button className="md:hidden" onClick={() => setIsOpen(true)}>
-              <MenuOutlined className="text-xl text-white" />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <div
-        className={`fixed top-0 right-0 h-full w-64 dark:bg-black bg-white dark:text-white text-black z-50 shadow-md transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
-      >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <h2 className="text-lg font-bold">Menu</h2>
-          <button onClick={() => setIsOpen(false)}>
-            <CloseOutlined className="text-xl" />
+          <button onClick={handleTheme} className="text-gray-800 cursor-pointer dark:text-gray-200">
+            {/* {darkMode ? <SunIcon className="h-6 w-6" /> : <MoonIcon className="h-6 w-6" />} */}
           </button>
+
+          {auth ? (
+            <div className="flex items-center gap-4">
+              <img src={auth.picture} alt={auth.name} className="w-8 h-8 rounded-full" referrerPolicy="no-referrer" />
+              <span className="text-black dark:text-white">{auth.name}</span>
+              <Button danger onClick={logout}>Logout</Button>
+            </div>
+          ) : (
+            <NavLink to="/login">
+              <Button type="primary" danger className="outline-none border-none text-white rounded">Login</Button>
+            </NavLink>
+          )}
         </div>
-        <nav className="flex flex-col p-4 gap-4 text-lg">
-          <NavLink to="/" onClick={() => setIsOpen(false)} className="hover:text-red-500">
-            Home
-          </NavLink>
-          <NavLink to="/movies" onClick={() => setIsOpen(false)} className="hover:text-red-500">
-            Movies
-          </NavLink>
-          <NavLink to="/wishlist" onClick={() => setIsOpen(false)} className="hover:text-red-500">
-            My Movies
-          </NavLink>
-          <NavLink to="/search" onClick={() => setIsOpen(false)} className="hover:text-red-500">
-            Search
-          </NavLink>
-          <NavLink to="/signin" onClick={() => setIsOpen(false)} className="hover:text-red-500">
-            Sign In
-          </NavLink>
-        </nav>
-      </div>
 
-      {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          className="fixed inset-0  bg-opacity-40 backdrop-blur-sm z-40 md:hidden"
-        />
-      )}
-    </>
 
-  )
-}
+        <div className="fixed md:hidden bottom-0 left-0 right-0 bg-white dark:bg-black  dark:border-[#111] flex justify-around items-center py-2 z-50">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+                  `flex flex-col items-center ${
+                    isActive ? "text-red-500" : "text-black dark:text-white"
+                  }`
+                }
+         >
+          <GoHome className="w-6 h-6" />
+          <span className="text-xs">Home</span>
+        </NavLink>
+        <NavLink
+          to="/movies"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${
+              isActive ? "text-red-500" : "text-black dark:text-white"
+            }`
+          }
+         >
+          <RiMovieLine className="w-6 h-5" />
+          <span className="text-xs">Movies</span>
+        </NavLink>
+        <NavLink
+          to="/saved"
+          className={({ isActive }) =>
+                  `flex flex-col items-center ${
+                    isActive ? "text-red-500" : "text-black dark:text-white"
+                  }`
+                }
+         >
+          <FaRegBookmark className="w-6 h-5" />
+          <span className="text-xs">Saved</span>
+        </NavLink>
+        <NavLink
+          to="/search"
+          className={({ isActive }) =>
+                  `flex flex-col items-center ${
+                    isActive ? "text-red-500" : "text-black dark:text-white"
+                  }`
+                }
+         >
+          <IoSearch className="w-6 h-5" />
+          <span className="text-xs">Search</span>
+        </NavLink>
+       </div>
+      </nav>
+    </div>
+  );
+};
 
-export default Header
+export default Header;

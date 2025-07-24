@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { useRoutes } from "react-router-dom";
 import NotFound from "./not-found/NotFound";
+import Login from "./login/Login";
 
 const Layout = lazy(() => import("./layout/Layout"));
 const Home = lazy(() => import("./home/Home"));
@@ -33,6 +34,10 @@ const MainRouter = () => {
         {
           path: "*",
           element: <NotFound />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
         },
       ],
     },

@@ -1,5 +1,4 @@
 "use client"
-
 import { IMAGE_URL } from "@/const"
 import type { IMovie } from "@/types"
 import { StarFilled, CalendarOutlined, PlayCircleOutlined } from "@ant-design/icons"
@@ -15,8 +14,6 @@ interface Props {
 
 const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
   const navigate = useNavigate()
-
- 
 
   const getImageSrc = (movie: IMovie) => {
     return IMAGE_URL + movie.poster_path
