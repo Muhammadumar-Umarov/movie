@@ -21,13 +21,15 @@ const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-  const { getMovies } = useMovie()
+  const { getMovies, getMovieBySearch } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
   const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("popularity.desc")
-
+  const searcheed = getMovieBySearch(searchQuery)
+ 
+  
   const genre = getParam("genre")
   const page = Number(getParam("page")) || 1
   const year = getParam("year")
@@ -168,7 +170,7 @@ const Movies = () => {
         )}
 
         {!isLoading && data?.results && data.results.length > 0 ? (
-          <div >
+          <div>
             <MovieView data={data.results} />
           </div>
         ) : !isLoading ? (
@@ -188,9 +190,7 @@ const Movies = () => {
             </Empty>
           </div>
         ) : null}
-      {
-        // data?.results.
-      }
+     
         {data?.results && data.results.length > 0 && (
           <div className="flex justify-center">
             <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>

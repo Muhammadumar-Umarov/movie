@@ -15,12 +15,17 @@ export const useMovie = () => {
       queryFn: () => api.get(`movie/${id}`).then((res) => res.data),
     });
 
-    const getMovieDetail = (id: string, path: string) =>
+  const getMovieDetail = (id: string, path: string) =>
     useQuery({
       queryKey: ["movie", id, path],
       queryFn: () => api.get(`movie/${id}/${path}`).then((res) => res.data),
     });
 
-  return { getMovies, getMovieSingle, getMovieDetail };
-};
+  const getMovieBySearch = (params: any) =>
+    useQuery({
+      queryKey: ["movie", params],
+      queryFn: () => api.get(`search/movie`).then((res) => res.data),
+    });
 
+  return { getMovies, getMovieSingle, getMovieDetail, getMovieBySearch };
+};

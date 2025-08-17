@@ -1,10 +1,13 @@
 "use client"
+
 import { IMAGE_URL } from "@/const"
 import type { IMovie } from "@/types"
-import { StarFilled, CalendarOutlined, PlayCircleOutlined } from "@ant-design/icons"
+import { StarFilled, CalendarOutlined, PlayCircleOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons"
 import React, { type FC } from "react"
 import { useNavigate } from "react-router-dom"
 import MovieViewSkeleton from "./MovieViewSkeleton"
+import { useDispatch, useSelector } from "react-redux"
+import { toggleWishlist } from '../../lib/features/wishlistSlice'
 
 interface Props {
   data: undefined | IMovie[]
@@ -12,8 +15,12 @@ interface Props {
   viewMode?: "grid" | "list"
 }
 
-const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
+const MovieView: FC<Props> = ({ data, isLoading = false }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  
+  // Get wishlist from Redux store instead of local state
+  const wishlistItems = useSelector((state: any) => state.wishlistSlice.value) 
 
   const getImageSrc = (movie: IMovie) => {
     return IMAGE_URL + movie.poster_path
@@ -27,12 +34,14 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
     return dateString ? new Date(dateString).getFullYear() : "TBA"
   }
 
+  // Check if movie is in wishlist using Redux state
+  const isInWishlist = (movieId: number) => {
+    return wishlistItems.some((item: IMovie) => item.id === movieId)
+  }
+
   if (isLoading) {
     return <MovieViewSkeleton count={12} />
   }
-  console.log(data);
-  
-
 
   return (
     <div className="container mx-auto">
@@ -40,8 +49,8 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
         {data?.map((movie: IMovie) => (
           <div
             key={movie.id}
-            onClick={() => navigate(`/movie/${movie.id}`)}
             className="group cursor-pointer bg-gray-50 dark:bg-[#161616] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
+            onClick={() => navigate(`/movie/${movie.id}`)}
           >
             <div className="relative aspect-[2/3] overflow-hidden">
               <img
@@ -53,10 +62,34 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                 <StarFilled style={{ color: "#fbbf24", fontSize: "10px" }} />
                 {formatRating(movie.vote_average)}
+              </div>
+
+              <div
+                onClick={e => {
+                  e.stopPropagation(); 
+                  dispatch(toggleWishlist(movie));
+                }}
+                className="absolute top-2 left-2 w-8 h-8 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-black/90 transition-colors duration-200 z-20"
+              >
+                {isInWishlist(movie.id) ? (
+                  <HeartFilled
+                    style={{
+                      color: "#ef4444",
+                      fontSize: "14px",
+                    }}
+                  />
+                ) : (
+                  <HeartOutlined
+                    style={{
+                      color: "white",
+                      fontSize: "14px",
+                    }}
+                  />
+                )}
               </div>
 
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
