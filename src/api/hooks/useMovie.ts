@@ -24,7 +24,7 @@ export const useMovie = () => {
   const getMovieBySearch = (params: any) =>
     useQuery({
       queryKey: ["movie", params],
-      queryFn: () => api.get(`search/movie`).then((res) => res.data),
+      queryFn: () => api.get(`search/movie`, { params }).then((res) => res.data),
     });
 
   return { getMovies, getMovieSingle, getMovieDetail, getMovieBySearch };

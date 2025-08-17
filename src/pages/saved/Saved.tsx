@@ -1,17 +1,7 @@
-import MovieView from '@/components/movie-view/MovieView'
-import type { RootState } from '@/lib/store'
-import { useSelector } from 'react-redux'
+import EnhancedSaved from "./enhanced-saved"
 
 const Saved = () => {
-  const wishlist = useSelector((state: RootState) => state.wishlistSlice.value)
-  
-  return (
-    <div>
-      {
-        <MovieView data={wishlist} />
-      }
-    </div>
-  )
+  return <EnhancedSaved  />
 }
 
 export default Saved

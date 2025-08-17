@@ -7,6 +7,8 @@ import { Pagination, Button, Empty } from "antd"
 import { useGenre } from "@/api/hooks/useGenre"
 import Genre from "@/components/genre/Genre"
 import { useParamsHook } from "@/hooks/useParamsHook"
+import "./Movies.css"
+
 import {
   SearchOutlined,
   CalendarOutlined,
@@ -16,19 +18,17 @@ import {
 } from "@ant-design/icons"
 import Loading from "@/components/loading/Loading"
 
-
 const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-  const { getMovies } = useMovie()
+  const { getMovies, getMovieBySearch } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
   const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("popularity.desc")
- 
-  
+
   const genre = getParam("genre")
   const page = Number(getParam("page")) || 1
   const year = getParam("year")
@@ -48,15 +48,26 @@ const Movies = () => {
     setSortBy("popularity.desc")
   }
 
+  // Faqat bitta moviesQuery ishlating
+  let moviesQuery;
+  if (searchQuery.trim()) {
+    moviesQuery = getMovieBySearch({
+      query: searchQuery,
+      page,
+    });
+  } else {
+    moviesQuery = getMovies({
+      page,
+      with_genres: genre,
+      without_genres: "18,36,27,10749",
+      sort_by: sortBy,
+      primary_release_year: year,
+      "vote_average.gte": rating,
+    });
+  }
+
   const { data: genreData } = getGenres()
-  const { data, isLoading } = getMovies({
-    page,
-    with_genres: genre,
-    without_genres: "18,36,27,10749",
-    sort_by: sortBy,
-    primary_release_year: year,
-    "vote_average.gte": rating,
-  })
+  const { data, isLoading } = moviesQuery; // Faqat shu destructuring
 
   const quickFilters = [
     { key: "popular", label: "Popular", icon: <FireOutlined />, params: { sort_by: "popularity.desc" } },
@@ -64,7 +75,6 @@ const Movies = () => {
     { key: "latest", label: "Latest", icon: <CalendarOutlined />, params: { sort_by: "release_date.desc" } },
     { key: "trending", label: "Trending", icon: <StarOutlined />, params: { sort_by: "vote_count.desc" } },
   ]
-
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black ">
@@ -81,7 +91,6 @@ const Movies = () => {
           </p>
 
           <div className="max-w-2xl mx-auto relative">
-            {/* */}
             <form action="" style={{
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               backdropFilter: "blur(10px)",
@@ -143,12 +152,8 @@ const Movies = () => {
             <div className="w-full lg:flex-1">
               <Genre data={genreData?.genres} />
             </div>
-
-            <div className="flex flex-wrap gap-4 items-center">
-            </div>
+            <div className="flex flex-wrap gap-4 items-center"></div>
           </div>
-
-
         </div>
 
         <div className="mb-6 flex justify-between items-center">
@@ -189,10 +194,10 @@ const Movies = () => {
             </Empty>
           </div>
         ) : null}
-     
+
         {data?.results && data.results.length > 0 && (
           <div className="flex justify-center">
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>
+            <div className="p-6 rounded-2xl bg-[#161616]">
               <Pagination
                 current={page}
                 pageSize={20}
@@ -201,15 +206,12 @@ const Movies = () => {
                 showSizeChanger={false}
                 showQuickJumper
                 showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} movies`}
-                style={{
-                  color: "white",
-                }}
+                className="custom-pagination"
               />
             </div>
           </div>
         )}
       </div>
-
     </div>
   )
 }
