@@ -21,13 +21,12 @@ const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-  const { getMovies, getMovieBySearch } = useMovie()
+  const { getMovies } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
   const [searchQuery, setSearchQuery] = useState("")
   const [sortBy, setSortBy] = useState("popularity.desc")
-  const searcheed = getMovieBySearch(searchQuery)
  
   
   const genre = getParam("genre")

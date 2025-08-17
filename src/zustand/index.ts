@@ -12,7 +12,7 @@ type Store = {
   logout: () => void;
 };
 
-export const useStore = create<Store>((set, get) => ({
+export const useStore = create<Store>((set, ) => ({
   auth: null,
   setAuth: (user) => {
     if (typeof window !== "undefined") {
