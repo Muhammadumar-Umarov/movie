@@ -60,7 +60,6 @@ const Login = () => {
                   theme="filled_black"
                   text="signin_with"
                   shape="pill"
-                  width="360"
                 />
               </div>
 

@@ -6,7 +6,7 @@ import youtubeLogo from "@/assets/youtube.svg"
 
 const Footer = () => {
   return (
-    <footer className="dark:bg-[#161616] py-8 mt-10 ">
+    <footer className="bg-[#161616] text-gray-300 py-8 mt-10 border-t border-white/10">
       <div className="container mx-auto flex flex-col gap-10 px-4">
         
         <div className="flex flex-col md:flex-row items-center md:justify-between gap-6 md:gap-0 ">
@@ -28,42 +28,42 @@ const Footer = () => {
         <div className="flex flex-wrap justify-between gap-8 text-center md:text-center max-[768px]:text-start">
           
           <div className="w-full sm:w-1/2 md:w-auto">
-            <p className="font-semibold text-[18px] mb-4">ABOUT US</p>
+            <p className="font-semibold text-[18px] mb-4 text-white">ABOUT US</p>
             <ul className="flex flex-col gap-2">
-              <li className="hover:underline"><a href="#">Public offer</a></li>
-              <li className="hover:underline"><a href="#">Advertisement</a></li>
-              <li className="hover:underline"><a href="#">F.A.Q</a></li>
-              <li className="hover:underline"><a href="#">Contact</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Public offer</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Advertisement</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">F.A.Q</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Contact</a></li>
             </ul>
           </div>
 
           <div className="w-full sm:w-1/2 md:w-auto">
-            <p className="font-semibold text-[18px] mb-4">SUPPORT</p>
+            <p className="font-semibold text-[18px] mb-4 text-white">SUPPORT</p>
             <ul className="flex flex-col gap-2">
-              <li className="hover:underline"><a href="#">Contact support</a></li>
-              <li className="hover:underline"><a href="#">Help center</a></li>
-              <li className="hover:underline"><a href="#">Supported devices</a></li>
-              <li className="hover:underline"><a href="#">Accessibility</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Contact support</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Help center</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Supported devices</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Accessibility</a></li>
             </ul>
           </div>
 
           <div className="w-full sm:w-1/2 md:w-auto">
-            <p className="font-semibold text-[18px] mb-4">GET THE APPS</p>
+            <p className="font-semibold text-[18px] mb-4 text-white">GET THE APPS</p>
             <ul className="flex flex-col gap-2">
-              <li className="hover:underline"><a href="#">iOS App</a></li>
-              <li className="hover:underline"><a href="#">Android App</a></li>
-              <li className="hover:underline"><a href="#">Windows App</a></li>
-              <li className="hover:underline"><a href="#">Mac App</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">iOS App</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Android App</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Windows App</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Mac App</a></li>
             </ul>
           </div>
 
           <div className="w-full sm:w-1/2 md:w-auto">
-            <p className="font-semibold text-[18px] mb-4">CATEGORY</p>
+            <p className="font-semibold text-[18px] mb-4 text-white">CATEGORY</p>
             <ul className="flex flex-col gap-2">
-              <li className="hover:underline"><Link to={"/movie"}>Movie</Link></li>
-              <li className="hover:underline"><a href="#">Theater</a></li>
-              <li className="hover:underline"><a href="#">Concerts</a></li>
-              <li className="hover:underline"><a href="#">Sport</a></li>
+              <li className="hover:underline hover:text-white"><Link to={"/movie"}>Movie</Link></li>
+              <li className="hover:underline hover:text-white"><a href="#">Theater</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Concerts</a></li>
+              <li className="hover:underline hover:text-white"><a href="#">Sport</a></li>
             </ul>
           </div>
 

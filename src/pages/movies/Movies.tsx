@@ -19,7 +19,7 @@ import Loading from "@/components/loading/Loading"
 
 const Movies = () => {
   useEffect(() => {
-    window.scrollTo(0, 70)
+    window.scrollTo(0, 0)
   }, [])
   const { getMovies, getSearchedMovies } = useMovie()
   const { getGenres } = useGenre()

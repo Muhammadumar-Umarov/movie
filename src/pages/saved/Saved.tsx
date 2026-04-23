@@ -10,7 +10,7 @@ const Saved = () => {
   const setSaved = useStore((state) => state.setSaved);
 
   useEffect(() => {
-    window.scrollTo(0, 70);
+    window.scrollTo(0, 0);
     const cached = localStorage.getItem("savedMovies");
     if (cached) {
       setSaved(JSON.parse(cached));

@@ -9,6 +9,7 @@ const Movies = lazy(() => import("./movies/Movies"));
 const MovieDetail = lazy(() => import("./movies/MovieDetail"));
 const PersonDetail = lazy(()=> import("./person-detail/PersonDetail"))
 const Saved = lazy(() => import("./saved/Saved"))
+const Search = lazy(() => import("./search/Search"))
 
 const MainRouter = () => {
   return useRoutes([
@@ -35,6 +36,10 @@ const MainRouter = () => {
         {
           path: "/saved",
           element: <Saved />,
+        },
+        {
+          path: "/search",
+          element: <Search />,
         },
         {
           path: "*",

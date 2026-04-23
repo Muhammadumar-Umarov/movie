@@ -7,6 +7,7 @@ import { Button, Image, Tag, Progress } from "antd"
 import React, { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import dfImage from "@/assets/default_image.avif"
+import { useStore } from "@/zustand"
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -14,6 +15,7 @@ import {
   ArrowLeftOutlined,
   ShareAltOutlined,
   HeartOutlined,
+  HeartFilled,
   BookOutlined,
   GlobalOutlined,
 } from "@ant-design/icons"
@@ -29,13 +31,19 @@ const MovieDetail = () => {
   const { data } = getMovieSingle(id || "")
   const { data: similarData } = getMovieDetail(id || "", "similar")
   const { data: creditsData } = getMovieDetail(id || "", "credits")
+  const saved = useStore((state) => state.saved)
+  const toggleSave = useStore((state) => state.toggleSave)
 
   const ratingPercentage = data?.vote_average ? data.vote_average * 10 : 0
+  const isSaved = Boolean(data && saved.some((item) => item.id === data.id))
+  const handleToggleSaved = () => {
+    if (data) toggleSave(data)
+  }
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 dark:bg-black" style={{ paddingTop: "70px" }}>
-        <div className="relative h-[70vh] overflow-hidden ">
+      <div className="min-h-screen bg-black">
+        <div className="relative h-[72vh] md:h-[76vh] overflow-hidden">
           <div className="absolute inset-0">
             <img 
               src={IMAGE_URL + data?.backdrop_path}
@@ -46,7 +54,7 @@ const MovieDetail = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           </div>
 
-          <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-20">
+          <div className="absolute top-4 md:top-6 left-4 md:left-6 right-4 md:right-6 flex justify-between items-center z-20">
             <Button
               onClick={() => navigate(-1)}
               type="text"
@@ -66,6 +74,7 @@ const MovieDetail = () => {
               <Button
                 type="text"
                 size="large"
+                onClick={handleToggleSaved}
                 style={{
                   backgroundColor: "rgba(0, 0, 0, 0.3)",
                   backdropFilter: "blur(8px)",
@@ -87,11 +96,12 @@ const MovieDetail = () => {
                   borderRadius: "8px",
                 }}
               >
-                <HeartOutlined />
+                {isSaved ? <HeartFilled style={{ color: "#ef4444" }} /> : <HeartOutlined />}
               </Button>
               <Button
                 type="text"
                 size="large"
+                onClick={handleToggleSaved}
                 style={{
                   backgroundColor: "rgba(0, 0, 0, 0.3)",
                   backdropFilter: "blur(8px)",
@@ -105,8 +115,8 @@ const MovieDetail = () => {
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 z-10">
-            <div className="max-w-4xl">
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-12 z-10">
+            <div className="max-w-4xl w-full">
               <div className="flex flex-wrap gap-2 mb-4">
                 {data?.genres?.map((genre: any) => (
                   <Tag
@@ -123,7 +133,7 @@ const MovieDetail = () => {
                 ))}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl">{data?.title}</h1>
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-2xl leading-tight">{data?.title}</h1>
 
               <div className="flex flex-wrap items-center gap-6 mb-6 text-white/90">
                 <div className="flex items-center gap-2">
@@ -164,7 +174,7 @@ const MovieDetail = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 md:gap-4">
                 <Button
                   size="large"
                   style={{
@@ -172,10 +182,11 @@ const MovieDetail = () => {
                     borderColor: "#b91c1c",
                     color: "white",
                     fontWeight: "600",
-                    padding: "0 32px",
+                    padding: "0 24px",
                     height: "48px",
                     borderRadius: "8px",
                   }}
+                  className="!w-full sm:!w-auto"
                 >
                   <PlayCircleOutlined className="mr-2" />
                   Watch Trailer
@@ -183,26 +194,28 @@ const MovieDetail = () => {
 
                 <Button
                   size="large"
+                  onClick={handleToggleSaved}
                   style={{
                     backgroundColor: "rgba(255, 255, 255, 0.2)",
                     backdropFilter: "blur(8px)",
                     borderColor: "transparent",
                     color: "white",
                     fontWeight: "600",
-                    padding: "0 32px",
+                    padding: "0 24px",
                     height: "48px",
                     borderRadius: "8px",
                   }}
+                  className="!w-full sm:!w-auto"
                 >
                   <BookOutlined className="mr-2" />
-                  Add to Watchlist
+                  {isSaved ? "Saved to Wishlist" : "Add to Wishlist"}
                 </Button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="container mx-auto px-6 py-12">
+        <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-12">
             <div className="xl:col-span-1">
               <div className="sticky top-8 space-y-6" style={{ top: "90px" }}>
@@ -222,7 +235,7 @@ const MovieDetail = () => {
                   <div className="absolute inset-0 rounded-2xl ring-1 ring-black/10 dark:ring-white/10" />
                 </div>
 
-                <div className="rounded-2xl p-6 shadow-lg dark:bg-[#161616]">
+                <div className="rounded-2xl p-6 shadow-lg bg-[#161616]">
                   <h3 className="text-lg font-semibold dark:text-white  mb-4">Movie Facts</h3>
 
                   <div className="space-y-4 text-sm">
@@ -255,9 +268,9 @@ const MovieDetail = () => {
             </div>
 
             <div className="xl:col-span-3 space-y-12">
-              <div className="rounded-2xl p-8 shadow-lg bg-white dark:bg-[#161616]">
-                <h2 className="text-2xl font-bold text-black dark:text-white mb-6">Overview</h2>
-                <p className="dark:text-gray-300 text-gray-700 leading-relaxed text-lg">{data?.overview}</p>
+              <div className="rounded-2xl p-8 shadow-lg bg-[#161616]">
+                <h2 className="text-2xl font-bold text-white mb-6">Overview</h2>
+                <p className="text-gray-300 leading-relaxed text-lg">{data?.overview}</p>
 
                 {data?.tagline && (
                   <div className="mt-6 pt-6 border-t border-gray-700">
@@ -266,9 +279,9 @@ const MovieDetail = () => {
                 )}
               </div>
 
-              <div className="rounded-2xl p-8 shadow-lg dark:bg-[#161616]">
+              <div className="rounded-2xl p-8 shadow-lg bg-[#161616]">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl font-bold dark:text-white text-black">Cast</h2>
+                    <h2 className="text-2xl font-bold text-white">Cast</h2>
                   <Button
                     type="link"
                     onClick={() => navigate(`/movie/${id}/cast`)}
@@ -305,7 +318,7 @@ const MovieDetail = () => {
                       </div>
 
                       <div className="text-center space-y-1">
-                        <h3 className="font-semibold dark:text-white text-black text-sm group-hover:text-red-400 transition-colors line-clamp-2">
+                        <h3 className="font-semibold text-white text-sm group-hover:text-red-400 transition-colors line-clamp-2">
                           {person.original_name}
                         </h3>
                         <p className="text-gray-400 text-xs line-clamp-2">{person.character}</p>
@@ -316,12 +329,12 @@ const MovieDetail = () => {
               </div>
 
               {data?.production_companies && data.production_companies.length > 0 && (
-                <div className="rounded-2xl p-8 shadow-lg ">
-                  <h2 className="text-2xl font-bold dark:text-white mb-6 text-black">Production</h2>
+                <div className="rounded-2xl p-8 shadow-lg bg-[#161616]">
+                  <h2 className="text-2xl font-bold text-white mb-6">Production</h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h3 className="font-semibold dark:text-white text-gray-800 mb-4">Production Companies</h3>
+                      <h3 className="font-semibold text-white mb-4">Production Companies</h3>
                       <div className="space-y-3">
                         {data.production_companies.map((company: any) => (
                           <div key={company.id} className="flex items-center gap-3">
@@ -333,7 +346,7 @@ const MovieDetail = () => {
                                 style={{ width: "32px", height: "32px", objectFit: "contain" }}
                               />
                             )}
-                            <span className="dark:text-gray-300 text-gray-700">{company.name}</span>
+                            <span className="text-gray-300">{company.name}</span>
                           </div>
                         ))}
                       </div>
@@ -363,9 +376,9 @@ const MovieDetail = () => {
               )}
 
               {similarData?.results && similarData.results.length > 0 && (
-                <div className="rounded-2xl p-8 shadow-lg dark:bg-[#161616]" >
+                <div className="rounded-2xl p-8 shadow-lg bg-[#161616]" >
                   <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-2xl font-bold dark:text-white">More Like This</h2>
+                    <h2 className="text-2xl font-bold text-white">More Like This</h2>
                     <Button
                       type="link"
                       style={{
