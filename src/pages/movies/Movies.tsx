@@ -16,17 +16,17 @@ import {
 } from "@ant-design/icons"
 import Loading from "@/components/loading/Loading"
 
-
 const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-  const { getMovies } = useMovie()
+
+  const { getMovies, getSearchedMovies } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
-  const [searchQuery, setSearchQuery] = useState("")
-  const [sortBy, setSortBy] = useState("popularity.desc")
+  const [searchQuery, setSearchQuery] = useState(getParam("query") || "")
+  const [sortBy, setSortBy] = useState(getParam("sort_by") || "popularity.desc")
 
   const genre = getParam("genre")
   const page = Number(getParam("page")) || 1
@@ -37,13 +37,15 @@ const Movies = () => {
     setParam("page", value.toString())
     window.scrollTo({ top: 70, behavior: "smooth" })
   }
-
+  getSearchedMovies({ query: "batman", page: "2" })
   const clearFilters = () => {
     setParam("genre", "")
     setParam("year", "")
     setParam("rating", "")
     setParam("sort_by", "")
     setParam("page", "1")
+    setParam("query", "")
+    setSearchQuery("")
     setSortBy("popularity.desc")
   }
 
@@ -55,6 +57,7 @@ const Movies = () => {
     sort_by: sortBy,
     primary_release_year: year,
     "vote_average.gte": rating,
+    query: searchQuery,
   })
 
   const quickFilters = [
@@ -64,14 +67,17 @@ const Movies = () => {
     { key: "trending", label: "Trending", icon: <StarOutlined />, params: { sort_by: "vote_count.desc" } },
   ]
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    setParam("query", searchQuery)
+    setParam("page", "1")
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black ">
       <div
         className="relative py-16 px-6 h-[500px] grid place-items-center"
-        style={{
-          background: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)",
-        }}
+        style={{ background: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)" }}
       >
         <div className="container mx-auto text-center ">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Discover Movies</h1>
@@ -80,26 +86,29 @@ const Movies = () => {
           </p>
 
           <div className="max-w-2xl mx-auto relative">
-            {/* */}
-            <form action="" style={{
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              borderRadius: "12px",
-              color: "white",
-              fontSize: "16px",
-              height: "56px",
-              display: "flex",
-              alignItems: "center",
-              paddingLeft: 8
-            }}>
+            <form
+              onSubmit={handleSearch}
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                borderRadius: "12px",
+                color: "white",
+                fontSize: "16px",
+                height: "56px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: 8,
+              }}
+            >
               <SearchOutlined style={{ paddingRight: 10 }} />
               <input
                 placeholder="Search for movies, actors, directors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className=" bg-transparent h-full flex-1/2 outline-none text-white"
+                className="bg-transparent h-full flex-1/2 outline-none text-white"
               />
+              <button type="submit" className="hidden">Search</button>
             </form>
           </div>
         </div>
@@ -142,12 +151,7 @@ const Movies = () => {
             <div className="w-full lg:flex-1">
               <Genre data={genreData?.genres} />
             </div>
-
-            <div className="flex flex-wrap gap-4 items-center">
-            </div>
           </div>
-
-
         </div>
 
         <div className="mb-6 flex justify-between items-center">
@@ -168,9 +172,7 @@ const Movies = () => {
         )}
 
         {!isLoading && data?.results && data.results.length > 0 ? (
-          <div >
-            <MovieView data={data.results} />
-          </div>
+          <MovieView data={data.results} />
         ) : !isLoading ? (
           <div className="py-20">
             <Empty style={{ color: "white" }}>
@@ -188,9 +190,7 @@ const Movies = () => {
             </Empty>
           </div>
         ) : null}
-      {
-        // data?.results.
-      }
+
         {data?.results && data.results.length > 0 && (
           <div className="flex justify-center">
             <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>
@@ -202,15 +202,12 @@ const Movies = () => {
                 showSizeChanger={false}
                 showQuickJumper
                 showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} movies`}
-                style={{
-                  color: "white",
-                }}
+                style={{ color: "white" }}
               />
             </div>
           </div>
         )}
       </div>
-
     </div>
   )
 }
