@@ -8,7 +8,6 @@ import MovieView from '@/components/movie-view/MovieView'
 import './style.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-// import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { IMAGE_URL } from '@/const';
 import { StarFilled } from '@ant-design/icons';
@@ -16,7 +15,6 @@ import { StarFilled } from '@ant-design/icons';
 const Home = () => {
   const { getMovies } = useMovie()
   const { data } = getMovies({ page: 1, without_genres: "18,36,27,10749" })
-  console.log(data?.results);
   useEffect(()=>{
     window.scrollTo(0,0)
   },[])

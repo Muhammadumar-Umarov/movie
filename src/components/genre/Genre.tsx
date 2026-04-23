@@ -9,7 +9,6 @@ interface Props {
 const Genre: FC<Props> = ({ data }) => {
   const { setParam, getParam, removeParam} = useParamsHook()
   const genre = getParam("genre")
-  console.log(genre);
 
   const handleGenre = (id:number)=> {
     if(genre === id.toString()){

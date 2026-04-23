@@ -7,6 +7,8 @@ import { Pagination, Button, Empty } from "antd"
 import { useGenre } from "@/api/hooks/useGenre"
 import Genre from "@/components/genre/Genre"
 import { useParamsHook } from "@/hooks/useParamsHook"
+import "./Movies.css"
+
 import {
   SearchOutlined,
   CalendarOutlined,
@@ -20,8 +22,7 @@ const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-
-  const { getMovies, getSearchedMovies } = useMovie()
+  const { getMovies } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
@@ -57,7 +58,6 @@ const Movies = () => {
     sort_by: sortBy,
     primary_release_year: year,
     "vote_average.gte": rating,
-    query: searchQuery,
   })
 
   const quickFilters = [
@@ -67,11 +67,6 @@ const Movies = () => {
     { key: "trending", label: "Trending", icon: <StarOutlined />, params: { sort_by: "vote_count.desc" } },
   ]
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    setParam("query", searchQuery)
-    setParam("page", "1")
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black ">
@@ -86,21 +81,19 @@ const Movies = () => {
           </p>
 
           <div className="max-w-2xl mx-auto relative">
-            <form
-              onSubmit={handleSearch}
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(10px)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                borderRadius: "12px",
-                color: "white",
-                fontSize: "16px",
-                height: "56px",
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: 8,
-              }}
-            >
+            {/* */}
+            <form action="" style={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              borderRadius: "12px",
+              color: "white",
+              fontSize: "16px",
+              height: "56px",
+              display: "flex",
+              alignItems: "center",
+              paddingLeft: 8
+            }}>
               <SearchOutlined style={{ paddingRight: 10 }} />
               <input
                 placeholder="Search for movies, actors, directors..."
@@ -151,6 +144,9 @@ const Movies = () => {
             <div className="w-full lg:flex-1">
               <Genre data={genreData?.genres} />
             </div>
+
+            <div className="flex flex-wrap gap-4 items-center">
+            </div>
           </div>
         </div>
 
@@ -172,7 +168,9 @@ const Movies = () => {
         )}
 
         {!isLoading && data?.results && data.results.length > 0 ? (
-          <MovieView data={data.results} />
+          <div >
+            <MovieView data={data.results} />
+          </div>
         ) : !isLoading ? (
           <div className="py-20">
             <Empty style={{ color: "white" }}>
@@ -193,7 +191,7 @@ const Movies = () => {
 
         {data?.results && data.results.length > 0 && (
           <div className="flex justify-center">
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>
+            <div className="p-6 rounded-2xl bg-[#161616]">
               <Pagination
                 current={page}
                 pageSize={20}
@@ -202,7 +200,9 @@ const Movies = () => {
                 showSizeChanger={false}
                 showQuickJumper
                 showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} movies`}
-                style={{ color: "white" }}
+                style={{
+                  color: "white",
+                }}
               />
             </div>
           </div>
