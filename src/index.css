@@ -145,6 +145,19 @@
   }
 }
 
+.search-input .ant-input {
+  color: #ffffff !important;
+}
+
+.search-input .ant-input::placeholder {
+  color: #ffffff !important;
+  opacity: 0.85;
+}
+
+.search-input .ant-input-prefix {
+  color: #ffffff !important;
+}
+
 /* Custom fonts for the movie app */
 @font-face {
   font-family: "Montserrat";

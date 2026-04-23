@@ -6,6 +6,7 @@ import React, { type FC } from "react"
 import { useNavigate } from "react-router-dom"
 import MovieViewSkeleton from "./MovieViewSkeleton"
 import { useStore } from "@/zustand"
+import defaultImage from "@/assets/default_image.avif"
 
 interface Props {
   data: undefined | IMovie[]
@@ -19,7 +20,7 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
   const toggleSave = useStore((state) => state.toggleSave)
 
   const getImageSrc = (movie: IMovie) => {
-    return IMAGE_URL + movie.poster_path
+    return movie.poster_path ? IMAGE_URL + movie.poster_path : defaultImage
   }
 
   const formatRating = (rating: number) => {
@@ -33,10 +34,6 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
   if (isLoading) {
     return <MovieViewSkeleton count={12} />
   }
-  console.log(data);
-  
-
-
   return (
     <div className="container mx-auto">
       <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 md:gap-6">

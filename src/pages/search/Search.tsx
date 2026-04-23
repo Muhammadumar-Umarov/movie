@@ -35,7 +35,7 @@ const Search = () => {
             onChange={(e) => setSearchValue(e.target.value)}
             prefix={<SearchOutlined />}
             placeholder="Type movie name..."
-            className="!bg-[#161616] !text-white !border-[#2a2a2a]"
+            className="search-input !bg-[#161616] !text-white !border-[#2a2a2a]"
             size="large"
           />
           <Button danger htmlType="submit" size="large">
