@@ -1,10 +1,11 @@
 "use client"
 import { IMAGE_URL } from "@/const"
 import type { IMovie } from "@/types"
-import { StarFilled, CalendarOutlined, PlayCircleOutlined } from "@ant-design/icons"
+import { StarFilled, CalendarOutlined, PlayCircleOutlined, HeartOutlined, HeartFilled } from "@ant-design/icons"
 import React, { type FC } from "react"
 import { useNavigate } from "react-router-dom"
 import MovieViewSkeleton from "./MovieViewSkeleton"
+import { useStore } from "@/zustand"
 
 interface Props {
   data: undefined | IMovie[]
@@ -14,6 +15,8 @@ interface Props {
 
 const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
   const navigate = useNavigate()
+  const saved = useStore((state) => state.saved)
+  const toggleSave = useStore((state) => state.toggleSave)
 
   const getImageSrc = (movie: IMovie) => {
     return IMAGE_URL + movie.poster_path
@@ -58,6 +61,22 @@ const MovieView: FC<Props> = ({ data, isLoading = false,}) => {
                 <StarFilled style={{ color: "#fbbf24", fontSize: "10px" }} />
                 {formatRating(movie.vote_average)}
               </div>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleSave(movie)
+                }}
+                className="absolute top-2 left-2 w-8 h-8 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-black/90 transition-colors duration-200 z-20"
+                aria-label="Toggle favorites"
+              >
+                {saved.some((item) => item.id === movie.id) ? (
+                  <HeartFilled style={{ color: "#ef4444", fontSize: "14px" }} />
+                ) : (
+                  <HeartOutlined style={{ color: "white", fontSize: "14px" }} />
+                )}
+              </button>
 
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="w-12 h-12 bg-red-700 rounded-full flex items-center justify-center shadow-lg">

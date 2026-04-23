@@ -23,7 +23,7 @@ const Home = () => {
 
   return (
     <>
-      <div className=' h-[780px] mb-[50px] relative'>
+      <div className='h-[580px] md:h-[780px] mb-[50px] relative'>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -40,14 +40,14 @@ const Home = () => {
         >
           {
             data?.results?.map((movie: IMovie) => (
-              <SwiperSlide className="relative">
+              <SwiperSlide key={movie.id} className="relative">
                 <img className='object-cover w-full h-full ' src={IMAGE_URL + movie?.backdrop_path} alt="" />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10 rounded-[8px]"></div>
 
-                <div className='absolute bottom-24 left-12 z-20'>
-                  <p className='text-[56px] font-extrabold text-white drop-shadow-lg'>{movie?.title}</p>
-                  <div className='flex gap-3 items-center text-slate-300 font-medium drop-shadow-md'>
+                <div className='absolute bottom-14 left-4 right-4 md:bottom-24 md:left-12 md:right-auto z-20 text-left'>
+                  <p className='text-[28px] leading-tight md:text-[56px] font-extrabold text-white drop-shadow-lg'>{movie?.title}</p>
+                  <div className='flex gap-3 items-center text-sm md:text-base text-slate-300 font-medium drop-shadow-md mt-2'>
                     <span>{movie?.release_date.split("-")[0]}</span>
                     <span className='w-[3px] h-[3px] bg-slate-300 rounded-full'></span>
                     <span><StarFilled style={{color: "yellow", marginRight: 6}}></StarFilled>{movie?.vote_average}</span>

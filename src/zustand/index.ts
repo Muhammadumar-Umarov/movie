@@ -9,14 +9,21 @@ type User = {
 type Store = {
   saved: any[];
   toggleSave: (movie: any) => void;
+  setSaved: (movies: any[]) => void;
 
   auth: User | null;
   setAuth: (user: User) => void;
   logout: () => void;
 };
 
+const getInitialSavedMovies = () => {
+  if (typeof window === "undefined") return [];
+  const savedMovies = localStorage.getItem("savedMovies");
+  return savedMovies ? JSON.parse(savedMovies) : [];
+};
+
 export const useStore = create<Store>((set, get) => ({
-  saved: [],
+  saved: getInitialSavedMovies(),
 
   toggleSave: (movie) => {
     const { saved } = get();
@@ -30,6 +37,7 @@ export const useStore = create<Store>((set, get) => ({
     }
     set({ saved: newSaved });
   },
+  setSaved: (movies) => set({ saved: movies }),
 
   auth: null,
   setAuth: (user) => {
