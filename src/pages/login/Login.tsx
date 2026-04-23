@@ -44,14 +44,14 @@ const Login = () => {
               Watch smarter, save favorites, and continue where you left off.
             </h1>
             <p className="text-gray-300 md:text-lg">
-              Login orqali profilingizni saqlang va tanlagan filmlaringizni istalgan qurilmada oching.
+            Save your profile by logging in and open your chosen movies on your device
             </p>
           </div>
 
           <div className="bg-[#0b0b0b] p-8 md:p-12 flex items-center">
             <div className="w-full">
               <h2 className="text-2xl md:text-3xl font-semibold mb-3">Welcome back</h2>
-              <p className="text-gray-400 mb-8">Google hisobingiz bilan tizimga kiring.</p>
+              <p className="text-gray-400 mb-8">Sign in with your Google account.</p>
 
               <div className="mb-6">
                 <GoogleLogin
