@@ -7,8 +7,6 @@ import { Pagination, Button, Empty } from "antd"
 import { useGenre } from "@/api/hooks/useGenre"
 import Genre from "@/components/genre/Genre"
 import { useParamsHook } from "@/hooks/useParamsHook"
-import "./Movies.css"
-
 import {
   SearchOutlined,
   CalendarOutlined,
@@ -18,11 +16,12 @@ import {
 } from "@ant-design/icons"
 import Loading from "@/components/loading/Loading"
 
+
 const Movies = () => {
   useEffect(() => {
     window.scrollTo(0, 70)
   }, [])
-  const { getMovies } = useMovie()
+  const { getMovies, getSearchedMovies } = useMovie()
   const { getGenres } = useGenre()
   const { getParam, setParam } = useParamsHook()
 
@@ -33,12 +32,14 @@ const Movies = () => {
   const page = Number(getParam("page")) || 1
   const year = getParam("year")
   const rating = getParam("rating")
+  const query = getParam("query") || ""
+  const isSearching = Boolean(query.trim())
 
   const handlePagination = (value: number) => {
     setParam("page", value.toString())
     window.scrollTo({ top: 70, behavior: "smooth" })
   }
-  getSearchedMovies({ query: "batman", page: "2" })
+
   const clearFilters = () => {
     setParam("genre", "")
     setParam("year", "")
@@ -59,6 +60,13 @@ const Movies = () => {
     primary_release_year: year,
     "vote_average.gte": rating,
   })
+  const { data: searchedData, isLoading: isSearchLoading } = getSearchedMovies({
+    query,
+    page,
+  })
+  const activeData = isSearching ? searchedData : data
+  const loadingState = isSearching ? isSearchLoading : isLoading
+  const totalResults = activeData?.total_results || 0
 
   const quickFilters = [
     { key: "popular", label: "Popular", icon: <FireOutlined />, params: { sort_by: "popularity.desc" } },
@@ -72,7 +80,9 @@ const Movies = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-black ">
       <div
         className="relative py-16 px-6 h-[500px] grid place-items-center"
-        style={{ background: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%)",
+        }}
       >
         <div className="container mx-auto text-center ">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Discover Movies</h1>
@@ -82,7 +92,14 @@ const Movies = () => {
 
           <div className="max-w-2xl mx-auto relative">
             {/* */}
-            <form action="" style={{
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                const value = searchQuery.trim()
+                setParam("query", value)
+                setParam("page", "1")
+              }}
+              style={{
               backgroundColor: "rgba(255, 255, 255, 0.1)",
               backdropFilter: "blur(10px)",
               border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -93,13 +110,14 @@ const Movies = () => {
               display: "flex",
               alignItems: "center",
               paddingLeft: 8
-            }}>
+            }}
+            >
               <SearchOutlined style={{ paddingRight: 10 }} />
               <input
                 placeholder="Search for movies, actors, directors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent h-full flex-1/2 outline-none text-white"
+                className=" bg-transparent h-full flex-1/2 outline-none text-white"
               />
               <button type="submit" className="hidden">Search</button>
             </form>
@@ -119,6 +137,8 @@ const Movies = () => {
                     setParam(key, value)
                   })
                   setParam("page", "1")
+                  setParam("query", "")
+                  setSearchQuery("")
                   setSortBy(filter.params.sort_by || "popularity.desc")
                 }}
                 style={{
@@ -148,30 +168,32 @@ const Movies = () => {
             <div className="flex flex-wrap gap-4 items-center">
             </div>
           </div>
+
+
         </div>
 
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {data?.total_results ? `${data.total_results.toLocaleString()} Movies Found` : "Movies"}
+              {totalResults ? `${totalResults.toLocaleString()} Movies Found` : "Movies"}
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              Page {page} of {Math.ceil((data?.total_results || 0) / 20)}
+              Page {page} of {Math.ceil(totalResults / 20)}
             </p>
           </div>
         </div>
 
-        {isLoading && (
+        {loadingState && (
           <div className="flex justify-center items-center py-20">
             <Loading />
           </div>
         )}
 
-        {!isLoading && data?.results && data.results.length > 0 ? (
+        {!loadingState && activeData?.results && activeData.results.length > 0 ? (
           <div >
-            <MovieView data={data.results} />
+            <MovieView data={activeData.results} />
           </div>
-        ) : !isLoading ? (
+        ) : !loadingState ? (
           <div className="py-20">
             <Empty style={{ color: "white" }}>
               <Button
@@ -188,15 +210,17 @@ const Movies = () => {
             </Empty>
           </div>
         ) : null}
-
-        {data?.results && data.results.length > 0 && (
+      {
+        // data?.results.
+      }
+        {activeData?.results && activeData.results.length > 0 && (
           <div className="flex justify-center">
-            <div className="p-6 rounded-2xl bg-[#161616]">
+            <div className="p-6 rounded-2xl" style={{ backgroundColor: "#161616" }}>
               <Pagination
                 current={page}
                 pageSize={20}
                 onChange={handlePagination}
-                total={data?.total_results <= 10000 ? data?.total_results : 10000}
+                total={totalResults <= 10000 ? totalResults : 10000}
                 showSizeChanger={false}
                 showQuickJumper
                 showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} movies`}
@@ -208,6 +232,7 @@ const Movies = () => {
           </div>
         )}
       </div>
+
     </div>
   )
 }

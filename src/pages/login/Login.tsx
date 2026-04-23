@@ -2,10 +2,12 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import React from 'react';
 import { jwtDecode } from "jwt-decode";
 import { useStore } from "@/zustand/index";
-import { toast, Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 const Login = () => {
   const setAuth = useStore(state => state.setAuth);
+  const navigate = useNavigate();
 
   interface DecodedToken {
     email: string;
@@ -25,37 +27,52 @@ const Login = () => {
         name: decoded.name,
         picture: decoded.picture,
       });
-      toast.success('Successfully signed in! 🎬');
+      navigate("/");
     }
   };
 
   return (
-    <GoogleOAuthProvider clientId="...">
-      <div className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
+    <GoogleOAuthProvider clientId="570495209460-74qdf4rl9ana3ad2klpt2vsats0to7sg.apps.googleusercontent.com">
+      <div className="min-h-screen w-full bg-black text-white pt-24 px-4 pb-12">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <div
+            className="relative min-h-[320px] md:min-h-[560px] p-10 flex flex-col justify-end"
+            style={{ background: "linear-gradient(160deg, #7f1d1d 0%, #111827 55%, #000000 100%)" }}
+          >
+            <p className="text-sm text-red-300 tracking-wide uppercase mb-3">Movie Explorer</p>
+            <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-4">
+              Watch smarter, save favorites, and continue where you left off.
+            </h1>
+            <p className="text-gray-300 md:text-lg">
+              Login orqali profilingizni saqlang va tanlagan filmlaringizni istalgan qurilmada oching.
+            </p>
+          </div>
 
-        <Toaster position="top-center" reverseOrder={false} />
+          <div className="bg-[#0b0b0b] p-8 md:p-12 flex items-center">
+            <div className="w-full">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-3">Welcome back</h2>
+              <p className="text-gray-400 mb-8">Google hisobingiz bilan tizimga kiring.</p>
 
-        <div className="absolute inset-0 z-0">
-          <img src="/bg-movie.jpg" alt="Movie background" className="object-cover w-full h-full opacity-60" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80"></div>
-        </div>
+              <div className="mb-6">
+                <GoogleLogin
+                  onSuccess={handleSuccess}
+                  onError={() => console.log('Login Failed')}
+                  theme="filled_black"
+                  text="signin_with"
+                  shape="pill"
+                  width="360"
+                />
+              </div>
 
-        <div className="z-10 bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-2xl text-white w-full max-w-sm text-center animate-fade-in">
-          <h1 className="text-3xl font-bold mb-4">Welcome to CineHub</h1>
-          <p className="mb-6 text-sm text-gray-300">Login with your Google account to explore movies, reviews & more.</p>
-          <GoogleLogin
-            onSuccess={handleSuccess}
-            onError={() => toast.error('Login failed 😞')}
-            theme="filled_black"
-            size="large"
-            text="continue_with"
-            shape="pill"
-          />
+              <Button onClick={() => navigate("/")} className="!bg-transparent !text-gray-300 !border-gray-700 hover:!border-red-600 hover:!text-white">
+                Back to Home
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </GoogleOAuthProvider>
   );
-
 };
 
 export default React.memo(Login);
